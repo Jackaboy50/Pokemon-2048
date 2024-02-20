@@ -1,2 +1,6 @@
-﻿  Pokemon 2048.cpp
-  Pokemon 2048.vcxproj -> D:\jackt\Documents\Coding Projects\Pokemon 2048\x64\Debug\Pokemon 2048.exe
+﻿  Board.cpp
+D:\jackt\Documents\Coding Projects\Pokemon-2048\Pokemon 2048\Board.cpp(24,17): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+D:\jackt\Documents\Coding Projects\Pokemon-2048\Pokemon 2048\Board.cpp(25,16): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+D:\jackt\Documents\Coding Projects\Pokemon-2048\Pokemon 2048\Board.cpp(29,14): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+D:\jackt\Documents\Coding Projects\Pokemon-2048\Pokemon 2048\Board.cpp(30,14): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+  Pokemon 2048.vcxproj -> D:\jackt\Documents\Coding Projects\Pokemon-2048\x64\Debug\Pokemon 2048.exe
