@@ -14,16 +14,22 @@ int main(void)
     while (!WindowShouldClose())
     {
         // Controls
-        if (IsKeyDown(KEY_SPACE)) {
+        if (IsKeyPressed(KEY_SPACE)) {
             gameBoard.NewTile();
         }
+
+        // WASD and arrow key controls for shifting tiles
+        if (IsKeyPressed(KEY_LEFT) || IsKeyPressed(KEY_A)) gameBoard.Shift(0);
+        if (IsKeyPressed(KEY_UP) || IsKeyPressed(KEY_W)) gameBoard.Shift(1);
+        if (IsKeyPressed(KEY_DOWN) || IsKeyPressed(KEY_S)) gameBoard.Shift(2);
+        if (IsKeyPressed(KEY_RIGHT) || IsKeyPressed(KEY_D)) gameBoard.Shift(3);
 
         // Drawing
         BeginDrawing();
 
         ClearBackground(RAYWHITE);
 
-       
+        DrawFPS(0, 0);
         gameBoard.Draw(screenWidth, screenHeight);
         gameBoard.DrawTiles(screenWidth, screenHeight);
 

@@ -1,9 +1,12 @@
 #include "raylib.h"
 #include "Board.h"
 #include <cstdlib>
+#include <time.h>
 
 Board::Board() {
 	total = 0;
+	// Seed the random number generator with the current time
+	srand(time(0));
 	for (int x = 0; x < 3; x++) {
 		for (int y = 0; y < 3; y++) {
 			tiles[x][y] = Tile(0);
@@ -15,18 +18,110 @@ void Board::Shift(int direction) {
 	switch (direction) {
 		case 0:
 			// Left shift
+			for (int x = 0; x < 4; x++) {
+				for (int y = 0; y < 4; y++) {
+					// If the tile is inactive we don't need to shift it
+					if (tiles[x][y].CheckState() == 0) continue;
+
+					// Loop through tiles to the left to see how far the tile can shift
+					int endTileX = x;
+					for (int i = x - 1; i > -1; i--) {
+						// Cache the position of the tile it can shift to
+						if (tiles[i][y].CheckState() == 0) {
+							endTileX = i;
+						}
+						else {
+							// If an active tile to the left is in the way, it cannot shift any further
+							break;
+						}
+					}
+					// Store the state of the tile and reset it, then move the value to the empty space
+					int state = tiles[x][y].CheckState();
+					tiles[x][y].ResetState();
+					tiles[endTileX][y].SetState(state);
+				}
+			}
 			break;
 
 		case 1:
 			// Up shift
+			for (int x = 0; x < 4; x++) {
+				for (int y = 0; y < 4; y++) {
+					// If the tile is inactive we don't need to shift it
+					if (tiles[x][y].CheckState() == 0) continue;
+
+					// Loop through tiles above to see how far the tile can shift
+					int endTileY = y;
+					for (int i = y - 1; i > -1; i--) {
+						// Cache the position of the tile it can shift to
+						if (tiles[x][i].CheckState() == 0) {
+							endTileY = i;
+						}
+						else {
+							// If an active tile above is in the way, it cannot shift any further
+							break;
+						}
+					}
+					// Store the state of the tile and reset it, then move the value to the empty space
+					int state = tiles[x][y].CheckState();
+					tiles[x][y].ResetState();
+					tiles[x][endTileY].SetState(state);
+				}
+			}
 			break;
 
 		case 2:
 			// Down shift
+			for (int x = 0; x < 4; x++) {
+				for (int y = 0; y < 4; y++) {
+					// If the tile is inactive we don't need to shift it
+					if (tiles[x][y].CheckState() == 0) continue;
+
+					// Loop through tiles below to see how far the tile can shift
+					int endTileY = y;
+					for (int i = y + 1; i < 4; i++) {
+						// Cache the position of the tile it can shift to
+						if (tiles[x][i].CheckState() == 0) {
+							endTileY = i;
+						}
+						else {
+							// If an active tile below is in the way, it cannot shift any further
+							break;
+						}
+					}
+					// Store the state of the tile and reset it, then move the value to the empty space
+					int state = tiles[x][y].CheckState();
+					tiles[x][y].ResetState();
+					tiles[x][endTileY].SetState(state);
+				}
+			}
 			break;
 
 		case 3:
 			// Right shift
+			for (int x = 0; x < 4; x++) {
+				for (int y = 0; y < 4; y++) {
+					// If the tile is inactive we don't need to shift it
+					if (tiles[x][y].CheckState() == 0) continue;
+
+					// Loop through tiles to the right to see how far the tile can shift
+					int endTileX = x;
+					for (int i = x + 1; i < 4; i++) {
+						// Cache the position of the tile it can shift to
+						if (tiles[i][y].CheckState() == 0) {
+							endTileX = i;
+						}
+						else {
+							// If an active tile to the right is in the way, it cannot shift any further
+							break;
+						}
+					}
+					// Store the state of the tile and reset it, then move the value to the empty space
+					int state = tiles[x][y].CheckState();
+					tiles[x][y].ResetState();
+					tiles[endTileX][y].SetState(state);
+				}
+			}
 			break;
 	}
 }
@@ -43,6 +138,7 @@ void Board::NewTile() {
 
 	// Loop while the flag is false
 	while (!validIndex) {
+
 		// Set the indices to random number
 		tileXIndex = rand() % 4;
 		tileYIndex = rand() % 4;

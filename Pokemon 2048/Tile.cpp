@@ -17,6 +17,10 @@ void Tile::ResetState() {
 	state = 0;
 }
 
+void Tile::SetState(int state) {
+	this->state = state;
+}
+
 int Tile::CheckState() {
 	return state;
 }
