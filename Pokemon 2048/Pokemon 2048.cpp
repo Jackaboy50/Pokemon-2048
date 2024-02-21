@@ -13,11 +13,19 @@ int main(void)
 
     while (!WindowShouldClose())
     {
+        // Controls
+        if (IsKeyDown(KEY_SPACE)) {
+            gameBoard.NewTile();
+        }
+
+        // Drawing
         BeginDrawing();
 
         ClearBackground(RAYWHITE);
 
-        gameBoard.Draw(screenHeight, screenWidth);
+       
+        gameBoard.Draw(screenWidth, screenHeight);
+        gameBoard.DrawTiles(screenWidth, screenHeight);
 
         EndDrawing();
     }
