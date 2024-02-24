@@ -1,3 +1,10 @@
-﻿  Board.cpp
-D:\jackt\Documents\Coding Projects\Pokemon-2048\Pokemon 2048\Board.cpp(9,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+﻿  Tile.cpp
+D:\jackt\Documents\Coding Projects\Pokemon-2048\Pokemon 2048\Tile.h(18,28): warning C4305: 'initializing': truncation from 'double' to 'float'
+D:\jackt\Documents\Coding Projects\Pokemon-2048\Pokemon 2048\Tile.cpp(29,26): warning C4305: '=': truncation from 'double' to 'float'
+D:\jackt\Documents\Coding Projects\Pokemon-2048\Pokemon 2048\Tile.cpp(57,129): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+D:\jackt\Documents\Coding Projects\Pokemon-2048\Pokemon 2048\Tile.cpp(57,103): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+D:\jackt\Documents\Coding Projects\Pokemon-2048\Pokemon 2048\Tile.cpp(57,63): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+D:\jackt\Documents\Coding Projects\Pokemon-2048\Pokemon 2048\Tile.cpp(57,22): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+D:\jackt\Documents\Coding Projects\Pokemon-2048\Pokemon 2048\Tile.cpp(58,67): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+D:\jackt\Documents\Coding Projects\Pokemon-2048\Pokemon 2048\Tile.cpp(59,29): warning C4305: '+=': truncation from 'double' to 'float'
   Pokemon 2048.vcxproj -> D:\jackt\Documents\Coding Projects\Pokemon-2048\x64\Debug\Pokemon 2048.exe

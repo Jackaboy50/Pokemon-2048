@@ -4,7 +4,6 @@
 
 Tile::Tile(int state) {
 	this->state = state;
-	merged = false;
 }
 
 Tile::Tile() { state = 0; }
@@ -26,6 +25,10 @@ int Tile::CheckState() {
 	return state;
 }
 
+void Tile::ResetSize() {
+	tileSizePercentage = 0.1;
+}
+
 void Tile::FlagMerged(bool flag) {
 	merged = flag;
 }
@@ -45,7 +48,19 @@ void Tile::Draw(Vector2 screenDimensions, int x, int y) {
 	int xOffset = (int)(screenDimensions.x * 0.1) + 20;
 	int yOffset = (int)(screenDimensions.y * 0.1) + 20;
 
-	// Draw tiles using variables
-	DrawRectangle(xOffset + (increment * x), yOffset + (increment * y), 140, 140, colours[(int)log2(state) - 1]);
-	DrawText(std::to_string(state).c_str(), xOffset + (increment * x), yOffset + (increment * y), 50, WHITE);
+	// Create positions for the tiles on the board
+	int posX = xOffset + (increment * x);
+	int posY = yOffset + (increment * y);
+
+	if (tileSizePercentage < 1) {
+		// Uses the tileSizePercentage float to slowly grow the tile from the middle until it is at full size
+		DrawRectangle(posX + (55 - (55 * tileSizePercentage)), posY + (50 - (50 * tileSizePercentage)), 140 * tileSizePercentage, 140 * tileSizePercentage, colours[(int)log2(state) - 1]);
+		DrawText(std::to_string(state).c_str(),posX + 55, posY + 50, 50 * tileSizePercentage, WHITE);
+		tileSizePercentage += 0.05;
+	}
+	else {
+		// Once the tile is at full size, draw the tile using the variables
+		DrawRectangle(posX, posY, 140, 140, colours[(int)log2(state) - 1]);
+		DrawText(std::to_string(state).c_str(), posX + 55, posY + 50, 50, WHITE);
+	}
 }

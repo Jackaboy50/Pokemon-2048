@@ -234,6 +234,7 @@ void Board::NewTile() {
 	// Creates a 10% chance that a new tile can start as a 4
 	int fourTileChance = rand() % 9;
 	if(fourTileChance == 9) tiles[tileXIndex][tileYIndex].IncrementState();
+	tiles[tileXIndex][tileYIndex].ResetSize();
 }
 
 void Board::Draw(int width, int height) {
