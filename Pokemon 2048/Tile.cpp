@@ -4,6 +4,7 @@
 
 Tile::Tile(int state) {
 	this->state = state;
+	merged = false;
 }
 
 Tile::Tile() { state = 0; }
@@ -25,6 +26,14 @@ int Tile::CheckState() {
 	return state;
 }
 
+void Tile::FlagMerged(bool flag) {
+	merged = flag;
+}
+
+bool Tile::HasMerged() {
+	return merged;
+}
+
 void Tile::Draw(Vector2 screenDimensions, int x, int y) {
 
 	// Get sizes smaller than screen
@@ -37,6 +46,6 @@ void Tile::Draw(Vector2 screenDimensions, int x, int y) {
 	int yOffset = (int)(screenDimensions.y * 0.1) + 20;
 
 	// Draw tiles using variables
-	DrawRectangle(xOffset + (increment * x), yOffset + (increment * y), 140, 140, ORANGE);
-	DrawText(std::to_string(state).c_str(), xOffset + (increment * x), yOffset + (increment * y), 5, WHITE);
+	DrawRectangle(xOffset + (increment * x), yOffset + (increment * y), 140, 140, colours[(int)log2(state) - 1]);
+	DrawText(std::to_string(state).c_str(), xOffset + (increment * x), yOffset + (increment * y), 50, WHITE);
 }

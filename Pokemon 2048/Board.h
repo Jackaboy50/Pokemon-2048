@@ -3,8 +3,12 @@
 class Board {
 	public:
 		Board();
-		void Shift(int direction);
-		void Merge();
+		void LeftShift();
+		void UpShift();
+		void DownShift();
+		void RightShift();
+		void Merge(Vector2 mergedTile, Vector2 mergingTile);
+		void ResetMergeFlags();
 		void Draw(int width, int height);
 		void DrawTiles(float width, float height);
 		void NewTile();
