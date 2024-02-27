@@ -51,6 +51,7 @@ void Board::LeftShift() {
 			int state = tiles[x][y].CheckState();
 			tiles[x][y].ResetState();
 			tiles[endTileX][y].SetState(state);
+			tiles[endTileX][y].SetOffset(x, y);
 		}
 	}
 	ResetMergeFlags();
@@ -91,6 +92,7 @@ void Board::UpShift() {
 			int state = tiles[x][y].CheckState();
 			tiles[x][y].ResetState();
 			tiles[x][endTileY].SetState(state);
+			tiles[x][endTileY].SetOffset(x, y);
 		}
 	}
 	ResetMergeFlags();
@@ -100,7 +102,7 @@ void Board::UpShift() {
 void Board::DownShift() {
 	// Down shift
 	for (int x = 0; x < 4; x++) {
-		for (int y = 0; y < 4; y++) {
+		for (int y = 3; y > -1; y--) {
 			// If the tile is inactive we don't need to shift it
 			if (tiles[x][y].CheckState() == 0) continue;
 
@@ -131,6 +133,7 @@ void Board::DownShift() {
 			int state = tiles[x][y].CheckState();
 			tiles[x][y].ResetState();
 			tiles[x][endTileY].SetState(state);
+			tiles[x][endTileY].SetOffset(x, y);
 		}
 	}
 	ResetMergeFlags();
@@ -139,7 +142,7 @@ void Board::DownShift() {
 
 void Board::RightShift() {
 	// Right shift
-	for (int x = 0; x < 4; x++) {
+	for (int x = 3; x > -1; x--) {
 		for (int y = 0; y < 4; y++) {
 			// If the tile is inactive we don't need to shift it
 			if (tiles[x][y].CheckState() == 0) continue;
@@ -171,6 +174,7 @@ void Board::RightShift() {
 			int state = tiles[x][y].CheckState();
 			tiles[x][y].ResetState();
 			tiles[endTileX][y].SetState(state);
+			tiles[endTileX][y].SetOffset(x, y);
 		}
 	}
 	ResetMergeFlags();
@@ -209,6 +213,8 @@ void Board::NewTile() {
 	}
 	// If there is no empty tile, don't create a new one
 	if (!emptyTile) return;
+
+	
 
 	// Create the indices and bool flag for the loop
 	int tileXIndex;
