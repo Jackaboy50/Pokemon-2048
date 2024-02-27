@@ -185,6 +185,7 @@ void Board::Merge(Vector2 mergedTile, Vector2 mergingTile) {
 	// Increment the state of the merged tile
 	// Set the merged flag to true so it won't merge twice in a single shift
 	tiles[(int)mergedTile.x][(int)mergedTile.y].IncrementState();
+	total += tiles[(int)mergedTile.x][(int)mergedTile.y].CheckState();
 	tiles[(int)mergedTile.x][(int)mergedTile.y].FlagMerged(true);
 
 	// Reset the state of the merging tile so it becomes blank
@@ -239,8 +240,26 @@ void Board::NewTile() {
 
 	// Creates a 10% chance that a new tile can start as a 4
 	int fourTileChance = rand() % 9;
-	if(fourTileChance == 9) tiles[tileXIndex][tileYIndex].IncrementState();
+	if (fourTileChance == 9) tiles[tileXIndex][tileYIndex].IncrementState();
 	tiles[tileXIndex][tileYIndex].ResetSize();
+}
+
+int Board::TotalScore() {
+	return total;
+}
+
+void Board::Restart() {
+	// Iterate through the tiles and reset each of them
+	for (int x = 0; x < 4; x++) {
+		for (int y = 0; y < 4; y++) {
+			tiles[x][y].ResetState();
+			tiles[x][y].ResetSize();
+		}
+	}
+	// Reset the total and create two tiles to start the game
+	total = 0;
+	NewTile();
+	NewTile();
 }
 
 void Board::Draw(int width, int height) {

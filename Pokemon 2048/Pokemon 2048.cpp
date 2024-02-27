@@ -1,5 +1,6 @@
 #include "raylib.h"
 #include "Board.h"
+#include <string>
 int main(void)
 {
     const int screenWidth = 800;
@@ -10,6 +11,9 @@ int main(void)
     SetTargetFPS(60);
 
     Board gameBoard = Board();
+    int highScore = 0;
+
+    if (highScore < gameBoard.TotalScore()) highScore = gameBoard.TotalScore();
 
     while (!WindowShouldClose())
     {
@@ -21,11 +25,19 @@ int main(void)
         if (IsKeyPressed(KEY_DOWN) || IsKeyPressed(KEY_S)) gameBoard.DownShift();
         if (IsKeyPressed(KEY_RIGHT) || IsKeyPressed(KEY_D)) gameBoard.RightShift();
 
+        // R to restart the game
+        if (IsKeyPressed(KEY_R)) gameBoard.Restart();
+
         // Drawing
         BeginDrawing();
 
         ClearBackground(RAYWHITE);
 
+        // Draw on screen elements
+        DrawText(("Total Score: " + std::to_string(gameBoard.TotalScore())).c_str(), 0, 0, 50, BLACK);
+        DrawText(("High Score: " + std::to_string(gameBoard.TotalScore())).c_str(), screenWidth * 0.55, 0, 50, BLACK);
+        DrawText("WASD or arrow keys to shift the tiles", 5, screenHeight - screenHeight * 0.1, 20, BLACK);
+        DrawText("R to restart the game", 5, screenHeight - screenHeight * 0.05, 20, BLACK);
         gameBoard.Draw(screenWidth, screenHeight);
         gameBoard.DrawTiles(screenWidth, screenHeight);
 
