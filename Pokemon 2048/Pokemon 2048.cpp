@@ -13,12 +13,14 @@ int main(void)
     Board gameBoard = Board();
     int highScore = 0;
 
-    if (highScore < gameBoard.TotalScore()) highScore = gameBoard.TotalScore();
+    
 
     while (!WindowShouldClose())
     {
-        // Controls
+        // Replace highscore with the current game score if it is greater
+        if (highScore < gameBoard.TotalScore()) highScore = gameBoard.TotalScore();
 
+        // Controls
         // WASD and arrow key controls for shifting tiles
         if (IsKeyPressed(KEY_LEFT) || IsKeyPressed(KEY_A)) gameBoard.LeftShift();
         if (IsKeyPressed(KEY_UP) || IsKeyPressed(KEY_W)) gameBoard.UpShift();
@@ -34,8 +36,8 @@ int main(void)
         ClearBackground(RAYWHITE);
 
         // Draw on screen elements
-        DrawText(("Total Score: " + std::to_string(gameBoard.TotalScore())).c_str(), 0, 0, 50, BLACK);
-        DrawText(("High Score: " + std::to_string(gameBoard.TotalScore())).c_str(), screenWidth * 0.55, 0, 50, BLACK);
+        DrawText(("Total Score: " + std::to_string(gameBoard.TotalScore())).c_str(), 10, 0, 30, BLACK);
+        DrawText(("High Score: " + std::to_string(highScore)).c_str(), 10, screenHeight * 0.05, 30, BLACK);
         DrawText("WASD or arrow keys to shift the tiles", 5, screenHeight - screenHeight * 0.1, 20, BLACK);
         DrawText("R to restart the game", 5, screenHeight - screenHeight * 0.05, 20, BLACK);
         gameBoard.Draw(screenWidth, screenHeight);

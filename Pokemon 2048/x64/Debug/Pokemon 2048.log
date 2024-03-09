@@ -1,8 +1,2 @@
-﻿  Pokemon 2048.cpp
-D:\jackt\Documents\Coding Projects\Pokemon-2048\Pokemon 2048\Tile.h(19,30): warning C4305: 'initializing': truncation from 'double' to 'float'
-  (compiling source file 'Pokemon%202048.cpp')
-  
-D:\jackt\Documents\Coding Projects\Pokemon-2048\Pokemon 2048\Pokemon 2048.cpp(38,97): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
-D:\jackt\Documents\Coding Projects\Pokemon-2048\Pokemon 2048\Pokemon 2048.cpp(39,75): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
-D:\jackt\Documents\Coding Projects\Pokemon-2048\Pokemon 2048\Pokemon 2048.cpp(40,59): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
-  Pokemon 2048.vcxproj -> D:\jackt\Documents\Coding Projects\Pokemon-2048\x64\Debug\Pokemon 2048.exe
+﻿  Tile.cpp
+  Pokemon 2048.vcxproj -> C:\Users\jackt\Documents\Coding Projects\Pokemon-2048\x64\Debug\Pokemon 2048.exe

@@ -6,7 +6,7 @@
 Board::Board() {
 	total = 0;
 	// Seed the random number generator with the current time
-	srand(time(0));
+	srand((int)time(0));
 	for (int x = 0; x < 3; x++) {
 		for (int y = 0; y < 3; y++) {
 			tiles[x][y] = Tile(0);

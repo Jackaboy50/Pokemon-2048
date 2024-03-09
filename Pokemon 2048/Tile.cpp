@@ -38,8 +38,8 @@ bool Tile::HasMerged() {
 	return merged;
 }
 
-void Tile::SetOffset(float x, float y) {
-	tileShiftOffset = { x, y };
+void Tile::SetOffset(int x, int y) {
+	tileShiftOffset = { (float)x, (float)y };
 	tileOffsetPercentage = 1;
 }
 
@@ -60,12 +60,12 @@ void Tile::Draw(Vector2 screenDimensions, int x, int y) {
 
 	if (tileOffsetPercentage > 0) {
 		// Create positions for where the tile was before it was shifted
-		int oldPosX = xOffset + (increment * tileShiftOffset.x);
-		int oldPosY = yOffset + (increment * tileShiftOffset.y);
+		int oldPosX = xOffset + (increment * (int)tileShiftOffset.x);
+		int oldPosY = yOffset + (increment * (int)tileShiftOffset.y);
 
 		// Create the offsets between the two positions
-		int posXOffset = (oldPosX - posX) * tileOffsetPercentage;
-		int posYOffset = (oldPosY - posY) * tileOffsetPercentage;
+		int posXOffset = (int)((oldPosX - posX) * tileOffsetPercentage);
+		int posYOffset = (int)((oldPosY - posY) * tileOffsetPercentage);
 
 		// Draw the tile with varing levels of posX/yOffset to simulate it moving to the new positon
 		DrawRectangle(posX + posXOffset, posY + posYOffset, 140, 140, colours[(int)log2(state) - 1]);
@@ -76,8 +76,8 @@ void Tile::Draw(Vector2 screenDimensions, int x, int y) {
 	}
 	else if (tileSizePercentage < 1) {
 		// Uses the tileSizePercentage float to slowly grow the tile from the middle until it is at full size
-		DrawRectangle(posX + (55 - (55 * tileSizePercentage)), posY + (50 - (50 * tileSizePercentage)), 140 * tileSizePercentage, 140 * tileSizePercentage, colours[(int)log2(state) - 1]);
-		DrawText(std::to_string(state).c_str(),posX + 55, posY + 50, 50 * tileSizePercentage, WHITE);
+		DrawRectangle(posX + (55 - (int)(55 * tileSizePercentage)), posY + (50 - (int)(50 * tileSizePercentage)), (int)(140 * tileSizePercentage), (int)(140 * tileSizePercentage), colours[(int)log2(state) - 1]);
+		DrawText(std::to_string(state).c_str(),posX + 55, posY + 50, (int)(50 * tileSizePercentage), WHITE);
 		tileSizePercentage += 0.075;
 	}
 	else {
