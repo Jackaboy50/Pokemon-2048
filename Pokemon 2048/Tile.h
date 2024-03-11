@@ -12,12 +12,20 @@ class Tile {
 		bool HasMerged();
 		void SetOffset(int x, int y);
 		void Draw(Vector2 screenDimensions, int x, int y);
+		void Draw2048(Vector2 screenDimensions, int x, int y);
+		void DrawPokemon(Vector2 screenDimensions, int x, int y);
+
+		static void ChangeDrawType() {
+			drawType = !drawType;
+		}
 
 	private:
 		int state;
 		bool merged = false;
+		static bool drawType;
 		double tileSizePercentage = 0.1;
 		double tileOffsetPercentage = 1;
 		Vector2 tileShiftOffset = { 0, 0 };
-		Color colours[10] = {RED, ORANGE, YELLOW, GREEN, SKYBLUE, DARKBLUE, DARKPURPLE, PURPLE, MAGENTA, PINK};
+		Color colours[14] = {RED, MAROON, ORANGE, GOLD, YELLOW, LIME, GREEN, SKYBLUE, DARKBLUE, DARKPURPLE, PURPLE, VIOLET, MAGENTA, PINK };
+		Texture2D spriteSheet;
 };

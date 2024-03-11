@@ -13,6 +13,11 @@ int main(void)
     Board gameBoard = Board();
     int highScore = 0;
 
+    // Load the spriteSheet texture from the spritesheet.png
+    Image image = LoadImage("C:\\Users\\jackt\\Documents\\Coding Projects\\Pokemon-2048\\Pokemon 2048\\spritesheet.png");
+    Texture spriteSheet = LoadTextureFromImage(image);
+    UnloadImage(image);
+
     
 
     while (!WindowShouldClose())
@@ -30,16 +35,20 @@ int main(void)
         // R to restart the game
         if (IsKeyPressed(KEY_R)) gameBoard.Restart();
 
+        // Space to change draw type
+        if (IsKeyPressed(KEY_SPACE)) Tile::ChangeDrawType();
+
         // Drawing
         BeginDrawing();
 
         ClearBackground(RAYWHITE);
 
         // Draw on screen elements
+        
         DrawText(("Total Score: " + std::to_string(gameBoard.TotalScore())).c_str(), 10, 0, 30, BLACK);
-        DrawText(("High Score: " + std::to_string(highScore)).c_str(), 10, screenHeight * 0.05, 30, BLACK);
-        DrawText("WASD or arrow keys to shift the tiles", 5, screenHeight - screenHeight * 0.1, 20, BLACK);
-        DrawText("R to restart the game", 5, screenHeight - screenHeight * 0.05, 20, BLACK);
+        DrawText(("High Score: " + std::to_string(highScore)).c_str(), 10, (int)(screenHeight * 0.05), 30, BLACK);
+        DrawText("WASD or arrow keys to shift the tiles", 5, screenHeight - (int)(screenHeight * 0.1), 20, BLACK);
+        DrawText("R to restart the game", 5, screenHeight - (int)(screenHeight * 0.05), 20, BLACK);
         gameBoard.Draw(screenWidth, screenHeight);
         gameBoard.DrawTiles(screenWidth, screenHeight);
 
