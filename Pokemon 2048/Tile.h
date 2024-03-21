@@ -15,6 +15,8 @@ class Tile {
 		void Draw2048(Vector2 screenDimensions, int x, int y);
 		void DrawPokemon(Vector2 screenDimensions, int x, int y);
 
+
+		static void LoadSpriteSheet();
 		static void ChangeDrawType() {
 			drawType = !drawType;
 		}
@@ -26,6 +28,5 @@ class Tile {
 		double tileSizePercentage = 0.1;
 		double tileOffsetPercentage = 1;
 		Vector2 tileShiftOffset = { 0, 0 };
-		Color colours[14] = {RED, MAROON, ORANGE, GOLD, YELLOW, LIME, GREEN, SKYBLUE, DARKBLUE, DARKPURPLE, PURPLE, VIOLET, MAGENTA, PINK };
-		Texture2D spriteSheet;
+		Color colours[12] = {RED, ORANGE, GOLD, LIME, GREEN, SKYBLUE, DARKBLUE, DARKPURPLE, PURPLE, VIOLET, MAGENTA, PINK };
 };

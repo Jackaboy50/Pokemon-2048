@@ -2,23 +2,19 @@
 #include "Tile.h"
 #include <string>
 
-Tile::Tile(int state) {
-	this->state = state;
-	// Load the spriteSheet texture from the spritesheet.png
-	Image image = LoadImage("Pokemon-2048/spritesheet.png");
+static Texture2D spriteSheet;
+
+void Tile::LoadSpriteSheet() {
+	Image image = LoadImage("spritesheet.png");
 	spriteSheet = LoadTextureFromImage(image);
 	UnloadImage(image);
 }
 
-Tile::Tile() { 
-	state = 0; 
-	// Load the spriteSheet texture from the spritesheet.png
-	Image image = LoadImage("Pokemon-2048/spritesheet.png");
-	spriteSheet = LoadTextureFromImage(image);
-	UnloadImage(image);
-}
+Tile::Tile(int state) { this->state = state; }
 
-bool Tile::drawType = true;
+Tile::Tile() { state = 0; }
+
+bool Tile::drawType = false;
 
 void Tile::IncrementState() {
 	// If state is 0 make it 2, otherwise multiply by 2
@@ -85,6 +81,8 @@ void Tile::Draw2048(Vector2 screenDimensions, int x, int y) {
 	int index = (int)log2(state) - 1;
 
 	if (tileOffsetPercentage > 0) {
+		// Set tileSizePercentage to full so it doesn't refresh the size when it is done moving
+		tileSizePercentage = 1;
 		// Create positions for where the tile was before it was shifted
 		int oldPosX = xOffset + (increment * (int)tileShiftOffset.x);
 		int oldPosY = yOffset + (increment * (int)tileShiftOffset.y);
@@ -104,7 +102,7 @@ void Tile::Draw2048(Vector2 screenDimensions, int x, int y) {
 		// Uses the tileSizePercentage float to slowly grow the tile from the middle until it is at full size
 		DrawRectangle(posX + (55 - (int)(55 * tileSizePercentage)), posY + (50 - (int)(50 * tileSizePercentage)), (int)(140 * tileSizePercentage), (int)(140 * tileSizePercentage), colours[index]);
 		DrawText(std::to_string(state).c_str(), posX + 55, posY + 50, (int)(50 * tileSizePercentage), WHITE);
-		tileSizePercentage += 0.075;
+		tileSizePercentage += 0.08;
 	}
 	else {
 		// Once the tile is at full size and not shifting, draw the tile using the variables
@@ -116,6 +114,59 @@ void Tile::Draw2048(Vector2 screenDimensions, int x, int y) {
 void Tile::DrawPokemon(Vector2 screenDimensions, int x, int y) {
 	// Rectangle - { startX, startY, lengthX, lengthY }
 	// spriteSheet - { 5, 5 } origin / 250x250 tiles / offset by +-260
-	//DrawTexturePro(spriteSheet, { 5, 5, 255, 255 }, { 5, 5, 125, 125 }, { 0, 0 }, 0, WHITE);
 
+	// Get sizes smaller than screen
+	// Cast to int as the draw method takes integer arguments
+	int halfWidth = (int)(screenDimensions.x * 0.75);
+	int increment = (int)(halfWidth / 4);
+
+	// Create offsets for the start of the board
+	int xOffset = (int)(screenDimensions.x * 0.1) + 20;
+	int yOffset = (int)(screenDimensions.y * 0.1) + 20;
+
+	// Create positions for the tiles on the board
+	float posX = xOffset + (increment * x);
+	float posY = yOffset + (increment * y);
+
+	// Get the index for the pokemon tile based on the log2 of the state
+	int index = (int)log2(state) - 1;
+
+	// Get the index's of the pokemon tile we want
+	// Use modulo to get the remainder of index / 10 to get the x index 0 - 9
+	// Use index / 10 to get the y index 0 - 15
+	int xTileIndex = index % 10;
+	int yTileIndex = index / 10;
+
+	if (tileOffsetPercentage > 0) {
+		// Set tileSizePercentage to full so it doesn't refresh the size when it is done moving
+		tileSizePercentage = 1;
+		// Create positions for where the tile was before it was shifted
+		int oldPosX = xOffset + (increment * (int)tileShiftOffset.x);
+		int oldPosY = yOffset + (increment * (int)tileShiftOffset.y);
+
+		// Create the offsets between the two positions
+		int posXOffset = (int)((oldPosX - posX) * tileOffsetPercentage);
+		int posYOffset = (int)((oldPosY - posY) * tileOffsetPercentage);
+
+		// Draw the tile with varing levels of posX/yOffset to simulate it moving to the new positon
+		DrawTexturePro(spriteSheet, { (float)(5 + (xTileIndex * 260)), (float)(5 + (yTileIndex * 260)), 255, 255 }, { posX + posXOffset, posY + posYOffset, 140, 140 }, { 0, 0 }, 0, WHITE);
+
+		// Decrease the offset percentage to make the offset smaller
+		tileOffsetPercentage -= 0.1;
+	}
+	else if (tileSizePercentage < 1) {
+		// Uses the tileSizePercentage float to slowly grow the tile from the middle until it is at full size
+		DrawRectangle(posX + (55 - (int)(55 * tileSizePercentage)), posY + (50 - (int)(50 * tileSizePercentage)), (int)(140 * tileSizePercentage), (int)(140 * tileSizePercentage), colours[index]);
+		DrawTexturePro(spriteSheet, { (float)(5 + (xTileIndex * 260)), (float)(5 + (yTileIndex * 260)), 255, 255 }, { 
+			posX + (55 - (int)(55 * tileSizePercentage)), // x position
+			posY + (50 - (int)(50 * tileSizePercentage)), // y position
+			(float)(140 * tileSizePercentage), // width
+			(float)(140 * tileSizePercentage) } // height
+		, { 0, 0 }, 0, WHITE);
+		tileSizePercentage += 0.08;
+	}
+	else {
+		// Once the tile is at full size and not shifting, draw the tile using the variables
+		DrawTexturePro(spriteSheet, { (float)(5 + (xTileIndex * 260)), (float)(5 + (yTileIndex * 260)), 255, 255 }, { posX, posY, 140, 140 }, { 0, 0 }, 0, WHITE);
+	}
 }

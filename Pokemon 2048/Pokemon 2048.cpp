@@ -1,6 +1,7 @@
 #include "raylib.h"
 #include "Board.h"
 #include <string>
+
 int main(void)
 {
     const int screenWidth = 800;
@@ -11,14 +12,8 @@ int main(void)
     SetTargetFPS(60);
 
     Board gameBoard = Board();
+    Tile::LoadSpriteSheet();
     int highScore = 0;
-
-    // Load the spriteSheet texture from the spritesheet.png
-    Image image = LoadImage("C:\\Users\\jackt\\Documents\\Coding Projects\\Pokemon-2048\\Pokemon 2048\\spritesheet.png");
-    Texture spriteSheet = LoadTextureFromImage(image);
-    UnloadImage(image);
-
-    
 
     while (!WindowShouldClose())
     {
@@ -44,7 +39,6 @@ int main(void)
         ClearBackground(RAYWHITE);
 
         // Draw on screen elements
-        
         DrawText(("Total Score: " + std::to_string(gameBoard.TotalScore())).c_str(), 10, 0, 30, BLACK);
         DrawText(("High Score: " + std::to_string(highScore)).c_str(), 10, (int)(screenHeight * 0.05), 30, BLACK);
         DrawText("WASD or arrow keys to shift the tiles", 5, screenHeight - (int)(screenHeight * 0.1), 20, BLACK);
