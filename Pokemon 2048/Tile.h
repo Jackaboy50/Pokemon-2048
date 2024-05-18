@@ -1,5 +1,5 @@
 #pragma once
-class Tile {
+class Tile final {
 	public:
 		Tile(int state);
 		Tile();

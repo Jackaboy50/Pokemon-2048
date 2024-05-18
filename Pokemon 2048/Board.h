@@ -1,6 +1,6 @@
 #pragma once
 #include "Tile.h"
-class Board {
+class Board final {
 	public:
 		Board();
 		void LeftShift();
@@ -12,7 +12,7 @@ class Board {
 
 		void Merge(Vector2 mergedTile, Vector2 mergingTile);
 		void ResetMergeFlags();
-		void Draw(int width, int height);
+		void Draw(int width, int height, Color gridColour);
 		void DrawTiles(float width, float height);
 		void NewTile();
 		

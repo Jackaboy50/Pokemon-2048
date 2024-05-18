@@ -18,6 +18,8 @@ Board::Board() {
 }
 
 void Board::LeftShift() {
+	// Set flag to see if the board state changes
+	bool stateChanged = false;
 	// Left shift
 	for (int x = 0; x < 4; x++) {
 		for (int y = 0; y < 4; y++) {
@@ -31,6 +33,7 @@ void Board::LeftShift() {
 				// Cache the position of the tile it can shift to
 				if (tiles[i][y].CheckState() == 0) {
 					endTileX = i;
+					stateChanged = true;
 				}
 				else if (tiles[i][y].CheckState() == tiles[x][y].CheckState()) {
 					// If the tile has already merged, break to avoid a double merge
@@ -39,6 +42,7 @@ void Board::LeftShift() {
 					// If both active tiles share the same value, merge them
 					Merge({ (float)i, (float)y }, { (float)x, (float)y});
 					merged = true;
+					stateChanged = true;
 					break;
 				}
 				else {
@@ -55,10 +59,13 @@ void Board::LeftShift() {
 		}
 	}
 	ResetMergeFlags();
-	NewTile();
+	if (stateChanged) {
+		NewTile();
+	}
 }
 
 void Board::UpShift() {
+	bool stateChanged = false;
 	// Up shift
 	for (int x = 0; x < 4; x++) {
 		for (int y = 0; y < 4; y++) {
@@ -72,6 +79,7 @@ void Board::UpShift() {
 				// Cache the position of the tile it can shift to
 				if (tiles[x][i].CheckState() == 0) {
 					endTileY = i;
+					stateChanged = true;
 				}
 				else if (tiles[x][i].CheckState() == tiles[x][y].CheckState()) {
 					// If the tile has already merged, break to avoid a double merge
@@ -80,6 +88,7 @@ void Board::UpShift() {
 					// If both active tiles share the same value, merge them
 					Merge({ (float)x, (float)i }, { (float)x, (float)y });
 					merged = true;
+					stateChanged = true;
 					break;
 				}
 				else {
@@ -96,10 +105,13 @@ void Board::UpShift() {
 		}
 	}
 	ResetMergeFlags();
-	NewTile();
+	if (stateChanged) {
+		NewTile();
+	}
 }
 
 void Board::DownShift() {
+	bool stateChanged = false;
 	// Down shift
 	for (int x = 0; x < 4; x++) {
 		for (int y = 3; y > -1; y--) {
@@ -113,6 +125,7 @@ void Board::DownShift() {
 				// Cache the position of the tile it can shift to
 				if (tiles[x][i].CheckState() == 0) {
 					endTileY = i;
+					stateChanged = true;
 				}
 				else if (tiles[x][i].CheckState() == tiles[x][y].CheckState()) {
 					// If the tile has already merged, break to avoid a double merge
@@ -121,6 +134,7 @@ void Board::DownShift() {
 					// If both active tiles share the same value, merge them
 					Merge({ (float)x, (float)i }, { (float)x, (float)y });
 					merged = true;
+					stateChanged = true;
 					break;
 				}
 				else {
@@ -137,10 +151,13 @@ void Board::DownShift() {
 		}
 	}
 	ResetMergeFlags();
-	NewTile();
+	if (stateChanged) {
+		NewTile();
+	}
 }
 
 void Board::RightShift() {
+	bool stateChanged = false;
 	// Right shift
 	for (int x = 3; x > -1; x--) {
 		for (int y = 0; y < 4; y++) {
@@ -154,6 +171,7 @@ void Board::RightShift() {
 				// Cache the position of the tile it can shift to
 				if (tiles[i][y].CheckState() == 0) {
 					endTileX = i;
+					stateChanged = true;
 				}
 				else if (tiles[i][y].CheckState() == tiles[x][y].CheckState()) {
 					// If the tile has already merged, break to avoid a double merge
@@ -162,6 +180,7 @@ void Board::RightShift() {
 					// If both active tiles share the same value, merge them
 					Merge({ (float)i, (float)y }, { (float)x, (float)y });
 					merged = true;
+					stateChanged = true;
 					break;
 				}
 				else {
@@ -178,7 +197,9 @@ void Board::RightShift() {
 		}
 	}
 	ResetMergeFlags();
-	NewTile();
+	if (stateChanged) {
+		NewTile();
+	}
 }
 
 void Board::Merge(Vector2 mergedTile, Vector2 mergingTile) {
@@ -262,7 +283,7 @@ void Board::Restart() {
 	NewTile();
 }
 
-void Board::Draw(int width, int height) {
+void Board::Draw(int width, int height, Color gridColour) {
 
 	// Get sizes smaller than screen
 	// Cast to int as the draw method takes integer arguments
@@ -276,13 +297,13 @@ void Board::Draw(int width, int height) {
 
 	// Loop to draw 5 grid lines on x-axis
 	for (int i = xOffset; i <= halfWidth + xOffset; i += increment) {
-		DrawRectangle(i, yOffset, 10, halfHeight + 10, BEIGE); // halfheight + 10 to make up for missed end corner
+		DrawRectangle(i, yOffset, 10, halfHeight + 10, gridColour); // halfheight + 10 to make up for missed end corner
 	}
 
 	// Loop to draw 5 grid lines on y-axis
 	increment = halfHeight / 4;
 	for (int i = yOffset; i <= halfHeight + yOffset; i += increment) {
-		DrawRectangle(xOffset, i, halfWidth, 10, BEIGE);
+		DrawRectangle(xOffset, i, halfWidth, 10, gridColour);
 	}
 }
 
